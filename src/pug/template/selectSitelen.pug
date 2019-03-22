@@ -1,0 +1,18 @@
+p.title.is-2.has-text-centered #{correctWord}
+p.subtitle.is-6.has-text-centered Select the <b>hieroglyph</b> for the <b>word</b> above.
+
+.columns.is-centered#selectSitelen
+    .column.is-half.box
+        .tile.is-ancestor
+            .tile.is-parent
+                each val, index in words.slice(0,4)
+                    a.tile(href="#")
+                        span.is-pulled-left.has-text-grey-light= index + 1
+                        span.linja-pona.is-size-3= val
+        .tile.is-ancestor
+            .tile.is-parent
+                each val, index in words.slice(4)
+                    a.tile(href="#")
+                        span.is-pulled-left.has-text-grey-light= index + 5
+                        span.linja-pona.is-size-3= val
+

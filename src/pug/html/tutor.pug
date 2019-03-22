@@ -1,0 +1,25 @@
+extends layout
+
+block title
+    | toki pona tutor
+
+block append head
+    script(src='js/tutor.bundle.js')
+
+block content
+    section.section
+        .container
+            .box
+                .progress-stacked
+                    .progress-item.is-danger#stats-wrong
+                    .progress-item.is-warning#stats-skip
+                    .progress-item.is-success#stats-correct
+                #content
+                .field.is-grouped.is-grouped-centered.is-spaced
+                    p.control
+                        button.button.is-info#hint-button Get hint
+                    p.control
+                        button.button.is-warning#skip-button Skip question
+
+
+

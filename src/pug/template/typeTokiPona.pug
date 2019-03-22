@@ -1,0 +1,17 @@
+p.title.is-2.has-text-centered #{definition}
+p.subtitle.is-6.has-text-centered Type the <b>word</b> for the <b>definition</b> above and press Enter.
+
+if wrong
+    p.subtitle.is-4.has-text-centered #{correctWord}
+
+.columns.is-centered
+    .column.is-half
+        form(action="javascript:void(0);" autocomplete="off")#form
+            .field.has-addons
+                .control.is-expanded
+                    if wrong
+                        input.input.is-danger(type='text' autocomplete="off")#input
+                    else
+                        input.input.is-primary(type='text' autocomplete="off")#input
+                .control
+                    input.button.is-primary(type='submit' value="Submit")

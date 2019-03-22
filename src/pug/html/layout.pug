@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+    block head
+        head
+            title
+                block title
+            meta(name='viewport' content='width=device-width, initial-scale=1')
+            link(rel='stylesheet' href='css/style.css')
+
+            script(src='js/common.bundle.js')
+
+            include meta
+    body
+        include navbar
+
+        block content
+
+        include footer

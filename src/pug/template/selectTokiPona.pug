@@ -1,0 +1,11 @@
+p.title.is-2.has-text-centered #{definition}
+p.subtitle.is-6.has-text-centered Select the <b>word</b> for the <b>definition</b> above.
+
+.columns.is-centered
+    .column.is-half
+        .menu.word-list
+            ul.menu-list.has-text-centered
+                each val, index in words
+                    li: a(href="#")
+                        span.is-pulled-left.has-text-grey-light= index+1
+                        span= val
