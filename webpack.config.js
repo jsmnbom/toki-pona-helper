@@ -2,11 +2,24 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const packageJson = require('./package.json');
 
 const pugHtml = {
     test: /\.pug$/,
     include: path.resolve(__dirname, 'src/pug/html'),
-    use: ['html-loader?attrs[]=img:src', 'pug-html-loader']
+    use: [
+        {
+            loader: 'html-loader',
+        },
+        {
+            loader: 'pug-html-loader',
+            options: {
+                data: {
+                    baseHref: process.env.NODE_ENV === 'development' ? '/' : packageJson['prodBaseHref']
+                }
+            }
+        }
+    ]
 };
 
 const pugTemplate = {
@@ -57,22 +70,32 @@ const font = {
     }],
 };
 
-const pages = ['index', 'tutor', 'about'];
+const pages = {
+    index: {
+        chunks: ['common']
+    },
+    tutor: {
+        chunks: ['common', 'tutor']
+    },
+    about: {
+        chunks: ['common']
+    },
+};
 
 const dist = path.resolve(__dirname, 'dist');
 
 // noinspection JSUnusedGlobalSymbols
 module.exports = {
     entry: {
-        style: './src/css/style.js',
         common: './src/js/common.ts',
-        tutor: './src/js/tutor.ts'
+        tutor: './src/js/tutor.ts',
     },
     devtool: 'source-map',
     output: {
         path: dist,
         filename: 'js/[name].bundle.js',
-        chunkFilename: "js/[name].chunk.js"
+        chunkFilename: "js/[name].chunk.js",
+        publicPath: ''
     },
     module: {
         rules: [
@@ -93,10 +116,10 @@ module.exports = {
             filename: "css/[name].css",
             chunkFilename: "css/[id].css"
         }),
-        ...pages.map(page => new HtmlWebpackPlugin({
+        ...Object.entries(pages).map(([page, {chunks}]) => new HtmlWebpackPlugin({
             filename: page + '.html',
             template: './src/pug/html/' + page + '.pug',
-            inject: false
+            chunks: chunks,
         })),
         new WebappWebpackPlugin('./src/img/logo.svg')
     ],
