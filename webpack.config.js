@@ -4,6 +4,8 @@ const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const packageJson = require('./package.json');
 
+const devMode = process.env.NODE_ENV === 'development';
+
 const pugHtml = {
     test: /\.pug$/,
     include: path.resolve(__dirname, 'src/pug/html'),
@@ -15,7 +17,7 @@ const pugHtml = {
             loader: 'pug-html-loader',
             options: {
                 data: {
-                    baseHref: process.env.NODE_ENV === 'development' ? '/' : packageJson['prodBaseHref']
+                    baseHref: devMode ? '/' : packageJson['prodBaseHref']
                 }
             }
         }
@@ -40,7 +42,13 @@ const scss = {
 const img = {
     test: /\.(jpg|jpeg|gif|png|svg)$/,
     exclude: /node_modules/,
-    loader: 'url-loader?limit=1024&name=img/[name].[ext]'
+    use: [{
+        loader: 'url-loader',
+        options: {
+            limit: 1024,
+            name: 'img/[name].[contenthash].[ext]'
+        }
+    }]
 };
 
 const ts = {
@@ -63,7 +71,7 @@ const font = {
     use: [{
         loader: 'file-loader',
         options: {
-            name: '[name].[ext]',
+            name: '[name].[contenthash].[ext]',
             outputPath: 'font',
             publicPath: '../font'
         },
@@ -90,11 +98,11 @@ module.exports = {
         common: './src/js/common.ts',
         tutor: './src/js/tutor.ts',
     },
-    devtool: 'source-map',
+    devtool: devMode ? 'eval' : 'source-map',
     output: {
         path: dist,
-        filename: 'js/[name].bundle.js',
-        chunkFilename: "js/[name].chunk.js",
+        filename: 'js/[name].[contenthash].bundle.js',
+        chunkFilename: "js/[name].[contenthash].chunk.js",
         publicPath: ''
     },
     module: {
@@ -113,7 +121,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: "css/[name].css",
+            filename: "css/[name].[contenthash].css",
             chunkFilename: "css/[id].css"
         }),
         ...Object.entries(pages).map(([page, {chunks}]) => new HtmlWebpackPlugin({
