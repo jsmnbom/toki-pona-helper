@@ -44,13 +44,7 @@ export class SentenceTutor extends BaseTutor {
     }
 
     async emitWrong() {
-        let options;
-        if (this.currentQuestionType === QuestionType.SelectEnglish) {
-            options = Array.from(this.element.querySelectorAll('a.tile'));
-        } else {
-            options = Array.from(this.element.querySelectorAll('li'));
-
-        }
+        let options = Array.from(this.element.querySelectorAll('li'));
         options[this.correctIndex].classList.add('is-correct');
         options[this.answeredIndex].classList.add('is-wrong');
     }
