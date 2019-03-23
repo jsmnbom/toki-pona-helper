@@ -1,0 +1,119 @@
+@import 'sitelenTutor';
+
+.menu.word-list {
+  border: #00d1b2 2px solid;
+  border-radius: 4px;
+
+  li:not(:last-child) {
+    border-bottom: #dbdbdb 1px solid;
+  }
+
+  li.is-wrong {
+    background-color: $danger;
+
+    a {
+      color: $danger-invert;
+    }
+  }
+
+  li.is-correct {
+    background-color: $success;
+
+    a {
+      color: $success-invert;
+    }
+  }
+
+  li.is-correct a:hover, li.is-wrong a:hover {
+    background-color: inherit;
+  }
+}
+
+
+.tutor-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .tutor-item {
+    align-items: center;
+    display: flex;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    justify-content: center;
+  }
+}
+
+
+.progress-stacked {
+  border: none;
+  border-radius: 50px;
+  height: 1rem;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  margin-bottom: 1.5rem;
+  background: $grey;
+  overflow: hidden;
+
+  .progress-item {
+    height: 1rem;
+    -webkit-transition: width 0.5s ease-in-out;
+    -moz-transition: width 0.5s ease-in-out;
+    -o-transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .progress-item.is-success {
+    background: $success;
+  }
+
+  .progress-item.is-danger {
+    background: $danger;
+  }
+
+  .progress-item.is-primary {
+    background: $primary;
+  }
+
+  .progress-item.is-info {
+    background: $info;
+  }
+
+  .progress-item.is-warning {
+    background: $warning;
+  }
+}
+
+
+.field.is-grouped.is-spaced {
+  margin-top: 1rem;
+}
+
+
+.tooltip {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: .4rem .8rem;
+  background: rgba($grey-dark, 0.9);
+  border-radius: 5px;
+  color: $white;
+  max-width: 24rem;
+  font-size: $size-7;
+  margin-bottom: 5px;
+}
+
+.tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-top-color: rgba($grey-dark, 0.9);
+  border-style: solid;
+  position: absolute;
+  border-width: 5px 5px 0 5px;
+  bottom: -5px;
+  margin: 0 5px;
+}

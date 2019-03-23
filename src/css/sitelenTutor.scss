@@ -1,0 +1,71 @@
+@font-face {
+  font-family: linja-pona;
+  src: url('../font/linja-pona-4.0.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.linja-pona {
+  font-family: linja-pona, sans-serif;
+  font-feature-settings: "liga" 1, "clig" 1, "calt" 1, "kern" 1, "mark" 1;
+  text-rendering: optimizeLegibility;
+  line-height: 1.25;
+}
+
+
+#selectSitelen {
+  margin-bottom: 1rem;
+
+  .box {
+    border: #00d1b2 2px solid;
+    border-radius: 4px;
+
+    .tile {
+      display: flex;
+    }
+
+    .tile.is-parent {
+      padding: 0;
+
+      .tile:not(:last-child) {
+        border-right: #dbdbdb 1px solid
+      }
+
+      .tile:hover {
+        background-color: whitesmoke;
+        color: #363636;
+      }
+
+      .tile.is-wrong {
+        background-color: $danger;
+        color: $danger-invert;
+      }
+
+      .tile.is-correct {
+        background-color: $success;
+        color: $success-invert;
+      }
+
+
+      .tile {
+        justify-content: stretch;
+
+        span:last-child {
+          padding: 1rem;
+          flex-grow: 1;
+          text-align: center;
+        }
+
+        span:first-child {
+          position: absolute;
+          padding-left: 3px;
+          padding-top: 1px;
+        }
+      }
+    }
+
+    .tile.is-ancestor:not(:last-child) {
+      border-bottom: #dbdbdb 1px solid
+    }
+  }
+}
