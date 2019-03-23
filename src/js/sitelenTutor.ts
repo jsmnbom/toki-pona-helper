@@ -2,7 +2,7 @@ import 'mousetrap';
 import * as template from './template';
 import {random, sample, sampleSize} from 'lodash';
 import {BaseTutor} from "./baseTutor";
-import {getOfficialDict, Word} from "./officialDict";
+import Dict, {DictWord} from "./dict";
 
 enum QuestionType {
     SelectSitelen,
@@ -10,7 +10,7 @@ enum QuestionType {
 }
 
 export class SitelenTutor extends BaseTutor {
-    private data: Array<Word>;
+    private data: Array<DictWord>;
     private enabledQuestionTypes: Array<QuestionType>;
     private correctIndex: number;
     private answeredIndex: number;
@@ -25,7 +25,7 @@ export class SitelenTutor extends BaseTutor {
     }
 
     async getData() {
-        this.data = (await getOfficialDict()).filter((word: Word) => word.word.split(' ').length < 3);
+        this.data = await Dict.getOfficial()
     }
 
     async emitQuestion() {
@@ -60,7 +60,7 @@ export class SitelenTutor extends BaseTutor {
         this.checkSelectCorrect(i);
     }
 
-    async select(f: (words: Array<Word>, correctWord: Word) => string, selector: string) {
+    async select(f: (words: Array<DictWord>, correctWord: DictWord) => string, selector: string) {
         const correctWord = sample(this.data);
 
         let words = sampleSize(this.data.filter(word => word.class === correctWord.class && word !== correctWord), 7);
@@ -83,9 +83,9 @@ export class SitelenTutor extends BaseTutor {
     async selectSitelen() {
         await this.select((words, correctWord) => {
             return template.selectSitelen({
-                correctWord: correctWord.word,
+                correctWord: correctWord.tokipona,
                 //wordClass: formatWordClass(correctWord.class),
-                words: words.map(word => word.word)
+                words: words.map(word => word.tokipona)
             });
         }, 'a.tile');
     }
@@ -93,9 +93,9 @@ export class SitelenTutor extends BaseTutor {
     async selectLatin() {
         await this.select((words, correctWord) => {
             return template.selectLatin({
-                correctWord: correctWord.word,
+                correctWord: correctWord.tokipona,
                 //wordClass: formatWordClass(correctWord.class),
-                words: words.map(word => word.word)
+                words: words.map(word => word.tokipona)
             });
         }, 'li > a');
     }

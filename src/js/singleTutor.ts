@@ -2,7 +2,7 @@ import 'mousetrap';
 import * as template from './template';
 import {random, sample, sampleSize} from 'lodash';
 import {BaseTutor} from "./baseTutor";
-import {formatWordClass, getOfficialDict, Word} from "./officialDict";
+import Dict, {DictWord} from "./dict";
 
 enum QuestionType {
     SelectDefinition,
@@ -11,12 +11,12 @@ enum QuestionType {
 }
 
 export class SingleTutor extends BaseTutor {
-    private data: Array<Word>;
+    private data: Array<DictWord>;
     private enabledQuestionTypes: Array<QuestionType>;
     private correctIndex: number;
     private answeredIndex: number;
     private currentQuestionType: QuestionType;
-    private correctWord: Word;
+    private correctWord: DictWord;
     private correctDefinition: string;
 
     constructor() {
@@ -29,7 +29,7 @@ export class SingleTutor extends BaseTutor {
     }
 
     async getData() {
-        this.data = await getOfficialDict();
+        this.data = await Dict.getOfficial();
     }
 
     async emitQuestion() {
@@ -66,7 +66,7 @@ export class SingleTutor extends BaseTutor {
         this.checkSelectCorrect(i);
     }
 
-    async select(f: (words: Array<Word>, correctWord: Word) => string) {
+    async select(f: (words: Array<DictWord>, correctWord: DictWord) => string) {
         const correctWord = sample(this.data);
 
         let words = sampleSize(this.data.filter(word => word.class === correctWord.class && word !== correctWord), 7);
@@ -90,8 +90,8 @@ export class SingleTutor extends BaseTutor {
         await this.select((words, correctWord) => {
             return template.selectTokiPona({
                 definition: sample(correctWord.definitions),
-                wordClass: formatWordClass(correctWord.class),
-                words: words.map(word => word.word)
+                wordClass: correctWord.formatClass(),
+                words: words.map(word => word.tokipona)
             });
         });
     }
@@ -99,8 +99,8 @@ export class SingleTutor extends BaseTutor {
     async selectDefinition() {
         await this.select((words, correctWord) => {
             return template.selectDefinition({
-                word: correctWord.word,
-                wordClass: formatWordClass(correctWord.class),
+                word: correctWord.tokipona,
+                wordClass: correctWord.formatClass(),
                 definitions: words.map(word => sample(word.definitions))
             });
         });
@@ -122,9 +122,9 @@ export class SingleTutor extends BaseTutor {
         }
 
         this.element.innerHTML = template.typeTokiPona({
-            wordClass: formatWordClass(this.correctWord.class),
+            wordClass: this.correctWord.formatClass(),
             definition: this.correctDefinition,
-            correctWord: this.correctWord.word,
+            correctWord: this.correctWord.tokipona,
             wrong
         });
 
@@ -136,9 +136,9 @@ export class SingleTutor extends BaseTutor {
         document.getElementById('form').addEventListener('submit', (e) => {
             e.preventDefault();
 
-            console.log(input.value.toLowerCase(), this.correctWord.word);
+            console.log(input.value.toLowerCase(), this.correctWord.tokipona);
 
-            if (input.value.toLowerCase() === this.correctWord.word) {
+            if (input.value.toLowerCase() === this.correctWord.tokipona) {
                 this.correct();
             } else {
                 this.wrong();
