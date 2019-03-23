@@ -16,22 +16,26 @@ class Searcher {
         console.log(exact);
         let results: [number, Translation][] = [];
         for (const translation of this.data) {
-            let score = 0;
+            let scores = [];
 
-            for (const test of [translation.tokipona, translation.english]) {
+            for (const test of [translation.tokipona.replace(/\s(\(e \))?$/g, ''), translation.english]) {
                 let occurrences = 0;
                 let arr;
                 while ((arr = exact.exec(test)) !== null) {
                     occurrences++;
                 }
                 if (occurrences > 0) {
-                    score += occurrences * ((1000 / occurrences) - test.length);
+                    scores.push(occurrences * ((500 / occurrences) - test.length));
                 }
 
             }
-            if (score > 0) {
-                results.push([score, translation]);
+            if (scores.length != 0) {
+                let score = scores.length == 1 ? scores[0] : (scores[0] + scores[1])/2;
+                if (score > 0) {
+                    results.push([score, translation]);
+                }
             }
+
         }
         results.sort((a, b) => {
             return a[0] < b[0] ? 1 : -1
@@ -52,7 +56,7 @@ class Dictionary {
     async run() {
         const data: Array<Translation> = [];
 
-        for (const word of await Dict.getOfficial()) {
+        for (const word of await Dict.getOfficial(false)) {
             data.push({
                 tokipona: word.tokipona,
                 english: `${word.formatClass()}: ${word.definitions.join(', ')}`

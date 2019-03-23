@@ -3,9 +3,12 @@ export class DictWord {
     class: string;
     definitions: string[];
 
-    constructor(raw: object) {
+    constructor(raw: object, trimE: boolean) {
         // @ts-ignore
-        this.tokipona = raw['tokipona'].replace(/\s(\(e \))?$/g, '');
+        this.tokipona = raw['tokipona'];
+        if (trimE) {
+            this.tokipona = this.tokipona.replace(/\s(\(e \))?$/g, '');
+        }
         // @ts-ignore
         this.class = raw['class'].trim();
         // @ts-ignore
@@ -27,9 +30,9 @@ export type Translation = {
 }
 
 export default class Dict {
-    static async getOfficial(): Promise<Array<DictWord>> {
+    static async getOfficial(trimE: boolean = true): Promise<Array<DictWord>> {
         const raw = (await import("../dict/official.csv")).default;
-        return raw.map((rawWord: object) => new DictWord(rawWord));
+        return raw.map((rawWord: object) => new DictWord(rawWord, trimE));
     }
 
     static async getWords(): Promise<Array<Translation>> {
