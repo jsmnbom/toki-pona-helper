@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "watch": "webpack --watch --mode production",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server --mode development"
   },
   "author": "Jasmin Bom <jsmnbom@gmail.com>",
   "license": "MIT",
