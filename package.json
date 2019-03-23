@@ -42,7 +42,6 @@
     "mousetrap": "^1.6.3",
     "pug": "^2.0.3",
     "query-string": "^6.4.0",
-    "tippy": "0.0.0",
     "tippy.js": "^4.2.0",
     "tooltip.js": "^1.3.1"
   },

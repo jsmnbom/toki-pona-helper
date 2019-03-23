@@ -20,16 +20,10 @@ export class DictWord {
     }
 }
 
-export class Translation {
+export type Translation = {
     tokipona: string;
     english: string;
-
-    constructor(raw: object) {
-        // @ts-ignore
-        this.tokipona = raw['tokipona'];
-        // @ts-ignore
-        this.english = raw['english'];
-    }
+    [key: string]: string
 }
 
 export default class Dict {
@@ -40,27 +34,16 @@ export default class Dict {
 
     static async getWords(): Promise<Array<Translation>> {
         const raw = (await import("../dict/words.csv")).default;
-        return raw.map((rawWord: object) => new Translation(rawWord));
+        return raw.map((rawWord: object) => rawWord);
     }
 
     static async getProperNouns(): Promise<Array<Translation>> {
         const raw = (await import("../dict/proper-nouns.csv")).default;
-        return raw.map((rawWord: object) => new Translation(rawWord));
+        return raw.map((rawWord: object) => rawWord);
     }
 
     static async getSentences(): Promise<Array<Translation>> {
         const raw = (await import("../dict/sentences.csv")).default;
-        return raw.map((rawWord: object) => new Translation(rawWord));
-    }
-
-    static async getAll(): Promise<Array<Translation | DictWord>> {
-        let all: Array<Translation | DictWord> = [];
-
-        all.concat(await this.getOfficial());
-        all.concat(await this.getWords());
-        all.concat(await this.getProperNouns());
-        all.concat(await this.getSentences());
-
-        return all;
+        return raw.map((rawWord: object) => rawWord);
     }
 }
