@@ -91,7 +91,8 @@ export class SingleTutor extends BaseTutor {
             return template.selectTokiPona({
                 definition: sample(correctWord.definitions),
                 wordClass: correctWord.formatClass(),
-                words: words.map(word => word.tokipona)
+                words: words.map(word => word.tokipona),
+                help: 'Select the <b>word</b> for the <b>definition</b> above.'
             });
         });
     }
@@ -101,7 +102,8 @@ export class SingleTutor extends BaseTutor {
             return template.selectDefinition({
                 word: correctWord.tokipona,
                 wordClass: correctWord.formatClass(),
-                definitions: words.map(word => sample(word.definitions))
+                definitions: words.map(word => sample(word.definitions)),
+                help: 'Select the <b>definition</b> for the <b>word</b> above.'
             });
         });
     }
