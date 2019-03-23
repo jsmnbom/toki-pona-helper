@@ -6489,7 +6489,7 @@ body {
 
 @font-face {
   font-family: linja-pona;
-  src: url(../font/linja-pona-4.0.woff) format("woff");
+  src: url(../font/linja-pona-4.0.c08ab36dea7f1246fcde37adc9883c6f.woff) format("woff");
   font-weight: normal;
   font-style: normal; }
 
@@ -6533,4 +6533,4 @@ body {
       border-bottom: #dbdbdb 1px solid; }
 
 
-/*# sourceMappingURL=style.css.map*/
+/*# sourceMappingURL=common.2952b5d128b4fdc1d865.css.map*/
