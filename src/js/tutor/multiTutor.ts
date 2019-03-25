@@ -2,7 +2,7 @@ import 'mousetrap';
 import * as template from './template';
 import {random, sample, sampleSize} from 'lodash';
 import {BaseTutor} from "./baseTutor";
-import Dict, {Translation} from "./dict";
+import Dict, {Translation} from "../dict";
 
 enum QuestionType {
     SelectEnglish,

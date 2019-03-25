@@ -2,15 +2,15 @@ import 'mousetrap';
 import * as template from './template';
 import {random, sample, sampleSize} from 'lodash';
 import {BaseTutor} from "./baseTutor";
-import Dict, {DictWord} from "./dict";
+import Dict, {Translation} from "../dict";
 
 enum QuestionType {
-    SelectSitelen,
-    SelectLatin,
+    SelectEnglish,
+    SelectTokiPona,
 }
 
-export class SitelenTutor extends BaseTutor {
-    private data: Array<DictWord>;
+export class SentenceTutor extends BaseTutor {
+    private data: Array<Translation>;
     private enabledQuestionTypes: Array<QuestionType>;
     private correctIndex: number;
     private answeredIndex: number;
@@ -19,13 +19,13 @@ export class SitelenTutor extends BaseTutor {
     constructor() {
         super();
         this.enabledQuestionTypes = [
-            QuestionType.SelectSitelen,
-            QuestionType.SelectLatin,
+            QuestionType.SelectEnglish,
+            QuestionType.SelectTokiPona,
         ];
     }
 
     async getData() {
-        this.data = await Dict.getOfficial()
+        this.data = await Dict.getSentences()
     }
 
     async emitQuestion() {
@@ -34,23 +34,17 @@ export class SitelenTutor extends BaseTutor {
         this.currentQuestionType = sample(this.enabledQuestionTypes);
 
         switch (this.currentQuestionType) {
-            case QuestionType.SelectSitelen:
-                await this.selectSitelen();
+            case QuestionType.SelectEnglish:
+                await this.selectEnglish();
                 break;
-            case QuestionType.SelectLatin:
-                await this.selectLatin();
+            case QuestionType.SelectTokiPona:
+                await this.selectTokiPona();
                 break;
         }
     }
 
     async emitWrong() {
-        let options;
-        if (this.currentQuestionType === QuestionType.SelectSitelen) {
-            options = Array.from(this.element.querySelectorAll('a.tile'));
-        } else {
-            options = Array.from(this.element.querySelectorAll('li'));
-
-        }
+        let options = Array.from(this.element.querySelectorAll('li'));
         options[this.correctIndex].classList.add('is-correct');
         options[this.answeredIndex].classList.add('is-wrong');
     }
@@ -60,7 +54,7 @@ export class SitelenTutor extends BaseTutor {
         this.checkSelectCorrect(i);
     }
 
-    async select(f: (words: Array<DictWord>, correctWord: DictWord) => string, selector: string) {
+    async select(f: (words: Array<Translation>, correctWord: Translation) => string, selector: string) {
         const correctWord = sample(this.data);
 
         let words = sampleSize(this.data.filter(word => word.class === correctWord.class && word !== correctWord), 7);
@@ -80,22 +74,22 @@ export class SitelenTutor extends BaseTutor {
         }
     }
 
-    async selectSitelen() {
+    async selectEnglish() {
         await this.select((words, correctWord) => {
-            return template.selectSitelen({
-                correctWord: correctWord.tokipona,
-                //wordClass: formatWordClass(correctWord.class),
-                words: words.map(word => word.tokipona)
+            return template.selectDefinition({
+                word: correctWord.tokipona,
+                definitions: words.map(word => word.english),
+                help: 'Select the <b>english translation</b> for the <b>sentence</b> above.'
             });
-        }, 'a.tile');
+        }, 'li > a');
     }
 
-    async selectLatin() {
+    async selectTokiPona() {
         await this.select((words, correctWord) => {
-            return template.selectLatin({
-                correctWord: correctWord.tokipona,
-                //wordClass: formatWordClass(correctWord.class),
-                words: words.map(word => word.tokipona)
+            return template.selectTokiPona({
+                definition: correctWord.english,
+                words: words.map(word => word.tokipona),
+                help: 'Select the <b>toki pona translation</b> for the <b>sentence</b> above.'
             });
         }, 'li > a');
     }

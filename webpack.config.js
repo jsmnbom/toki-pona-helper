@@ -99,7 +99,7 @@ module.exports = (env, argv) => {
     return ({
         entry: {
             common: './src/js/common.ts',
-            tutor: './src/js/tutor.ts',
+            tutor: './src/js/tutor/index.ts',
             dictionary: './src/js/dictionary.ts',
         },
         devtool: devMode ? 'eval' : 'source-map',

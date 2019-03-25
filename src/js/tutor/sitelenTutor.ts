@@ -2,15 +2,15 @@ import 'mousetrap';
 import * as template from './template';
 import {random, sample, sampleSize} from 'lodash';
 import {BaseTutor} from "./baseTutor";
-import Dict, {Translation} from "./dict";
+import Dict, {DictWord} from "../dict";
 
 enum QuestionType {
-    SelectEnglish,
-    SelectTokiPona,
+    SelectSitelen,
+    SelectLatin,
 }
 
-export class SentenceTutor extends BaseTutor {
-    private data: Array<Translation>;
+export class SitelenTutor extends BaseTutor {
+    private data: Array<DictWord>;
     private enabledQuestionTypes: Array<QuestionType>;
     private correctIndex: number;
     private answeredIndex: number;
@@ -19,13 +19,13 @@ export class SentenceTutor extends BaseTutor {
     constructor() {
         super();
         this.enabledQuestionTypes = [
-            QuestionType.SelectEnglish,
-            QuestionType.SelectTokiPona,
+            QuestionType.SelectSitelen,
+            QuestionType.SelectLatin,
         ];
     }
 
     async getData() {
-        this.data = await Dict.getSentences()
+        this.data = await Dict.getOfficial()
     }
 
     async emitQuestion() {
@@ -34,17 +34,23 @@ export class SentenceTutor extends BaseTutor {
         this.currentQuestionType = sample(this.enabledQuestionTypes);
 
         switch (this.currentQuestionType) {
-            case QuestionType.SelectEnglish:
-                await this.selectEnglish();
+            case QuestionType.SelectSitelen:
+                await this.selectSitelen();
                 break;
-            case QuestionType.SelectTokiPona:
-                await this.selectTokiPona();
+            case QuestionType.SelectLatin:
+                await this.selectLatin();
                 break;
         }
     }
 
     async emitWrong() {
-        let options = Array.from(this.element.querySelectorAll('li'));
+        let options;
+        if (this.currentQuestionType === QuestionType.SelectSitelen) {
+            options = Array.from(this.element.querySelectorAll('a.tile'));
+        } else {
+            options = Array.from(this.element.querySelectorAll('li'));
+
+        }
         options[this.correctIndex].classList.add('is-correct');
         options[this.answeredIndex].classList.add('is-wrong');
     }
@@ -54,7 +60,7 @@ export class SentenceTutor extends BaseTutor {
         this.checkSelectCorrect(i);
     }
 
-    async select(f: (words: Array<Translation>, correctWord: Translation) => string, selector: string) {
+    async select(f: (words: Array<DictWord>, correctWord: DictWord) => string, selector: string) {
         const correctWord = sample(this.data);
 
         let words = sampleSize(this.data.filter(word => word.class === correctWord.class && word !== correctWord), 7);
@@ -74,22 +80,22 @@ export class SentenceTutor extends BaseTutor {
         }
     }
 
-    async selectEnglish() {
+    async selectSitelen() {
         await this.select((words, correctWord) => {
-            return template.selectDefinition({
-                word: correctWord.tokipona,
-                definitions: words.map(word => word.english),
-                help: 'Select the <b>english translation</b> for the <b>sentence</b> above.'
+            return template.selectSitelen({
+                correctWord: correctWord.tokipona,
+                //wordClass: formatWordClass(correctWord.class),
+                words: words.map(word => word.tokipona)
             });
-        }, 'li > a');
+        }, 'a.tile');
     }
 
-    async selectTokiPona() {
+    async selectLatin() {
         await this.select((words, correctWord) => {
-            return template.selectTokiPona({
-                definition: correctWord.english,
-                words: words.map(word => word.tokipona),
-                help: 'Select the <b>toki pona translation</b> for the <b>sentence</b> above.'
+            return template.selectLatin({
+                correctWord: correctWord.tokipona,
+                //wordClass: formatWordClass(correctWord.class),
+                words: words.map(word => word.tokipona)
             });
         }, 'li > a');
     }
