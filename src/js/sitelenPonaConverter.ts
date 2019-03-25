@@ -28,7 +28,7 @@ class SitelenPonaConverter {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private outputBox: HTMLDivElement;
-    private downloadButton: HTMLButtonElement;
+    private helpModal: HTMLDivElement;
     private textInput: HTMLTextAreaElement;
     private fontSizeInput: HTMLInputElement;
     private wrapInput: HTMLInputElement;
@@ -67,6 +67,14 @@ class SitelenPonaConverter {
         a.click();
     };
 
+    onHelp = async () => {
+        this.helpModal.classList.add('is-active');
+    };
+
+    onCloseHelp = async () => {
+        this.helpModal.classList.remove('is-active');
+    };
+
     redraw = async () => {
         if (this.ready) {
             const boxComputedStyle = window.getComputedStyle(this.outputBox);
@@ -94,7 +102,7 @@ class SitelenPonaConverter {
         this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         this.outputBox = document.getElementById('output_box') as HTMLDivElement;
-        this.downloadButton = document.getElementById('download_button') as HTMLButtonElement;
+        this.helpModal = document.getElementById('help_modal') as HTMLDivElement;
         this.textInput = document.getElementById('text_input') as HTMLTextAreaElement;
         this.wrapInput = document.getElementById('wrap_input') as HTMLInputElement;
         this.fontSizeInput = document.getElementById('font_size_input') as HTMLInputElement;
@@ -102,7 +110,11 @@ class SitelenPonaConverter {
         this.fontSizeInput.addEventListener('input', this.onFontSizeChange);
         this.textInput.addEventListener('input', this.onTextChange);
         this.wrapInput.addEventListener('change', this.onWrapChange);
-        this.downloadButton.addEventListener('click', this.onDownload);
+
+        document.getElementById('download_button').addEventListener('click', this.onDownload);
+        document.getElementById('help_button').addEventListener('click', this.onHelp);
+        document.getElementById('modal_background').addEventListener('click', this.onCloseHelp);
+        document.getElementById('modal_close').addEventListener('click', this.onCloseHelp);
 
         this.wrapInput.dispatchEvent(new Event('change'));
         this.fontSizeInput.dispatchEvent(new Event('input'));

@@ -23,10 +23,34 @@ block content
                             input(type='checkbox' checked)#wrap_input
                             |
                             | Wrap text
-                    .field
+                    .field.is-grouped
                         //p.control
                         //    button.button.is-primary#copy_button Copy to clipboard
                         p.control
-                            button.button.is-info#download_button Download
+                            button.button.is-primary#download_button Download
+                        p.control
+                            button.button.is-info#help_button Help
             .box.is-primary#output_box
                 canvas.linja-pona#canvas
+    .modal#help_modal
+        .modal-background#modal_background
+        .modal-content
+            .box.content
+                p.title Sitelen pona converter help
+                p
+                    | Use hyphens to combine letters.
+                    |
+                    span.is-family-monospace kala-ali
+                    |
+                    | turns into
+                    |
+                    span.linja-pona.is-size-2 kala-ali
+                p
+                    | Use square brackets and underscores to create literals.
+                    |
+                    span.is-family-monospace [_toki_o_sike_nimi]
+                    |
+                    | turns into
+                    |
+                    span.linja-pona.is-size-2 [_toki_o_sike_nimi]
+        button.modal-close.is-large#modal_close
