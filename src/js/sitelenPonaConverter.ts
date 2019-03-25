@@ -83,7 +83,7 @@ class SitelenPonaConverter {
 
             const [lines, maxSeenWidth] = wrapText(this.ctx, this.textInput.value, maxWidth);
 
-            this.canvas.width = maxSeenWidth;
+            this.canvas.width = maxSeenWidth > maxWidth ? maxSeenWidth : maxWidth;
             this.canvas.height = 10 + (this.fontSize * lines.length * 1.25);
             this.ctx.font = `${this.fontSize}px linja-pona`;
             this.ctx.textBaseline = 'top';
