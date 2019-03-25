@@ -94,6 +94,9 @@ module.exports = (env, argv) => {
         dictionary: {
             chunks: ['common', 'dictionary']
         },
+        sitelenPonaConverter: {
+            chunks: ['common', 'sitelenPonaConverter']
+        },
     };
 
     return ({
@@ -101,6 +104,7 @@ module.exports = (env, argv) => {
             common: './src/js/common.ts',
             tutor: './src/js/tutor/index.ts',
             dictionary: './src/js/dictionary.ts',
+            sitelenPonaConverter: './src/js/sitelenPonaConverter.ts',
         },
         devtool: devMode ? 'eval' : 'source-map',
         output: {

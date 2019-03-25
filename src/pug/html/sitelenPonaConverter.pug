@@ -1,0 +1,32 @@
+extends layout
+
+block title
+    | toki pona text to sitelen pona converter
+
+block content
+    section.section
+        .container.box
+            p.title.has-text-centered Text to sitelen pona converter
+            .columns
+                .column.is-half
+                    .field
+                        label.label Text
+                        .control.is-expanded
+                            textarea.textarea.is-primary(type='text' spellcheck="false")#text_input
+                .column.is-half
+                    .field
+                        label.label Font size
+                        .control
+                            input.input(type="number" value='40')#font_size_input
+                    .field
+                        label.checkbox
+                            input(type='checkbox' checked)#wrap_input
+                            |
+                            | Wrap text
+                    .field
+                        //p.control
+                        //    button.button.is-primary#copy_button Copy to clipboard
+                        p.control
+                            button.button.is-info#download_button Download
+            .box.is-primary#output_box
+                canvas.linja-pona#canvas

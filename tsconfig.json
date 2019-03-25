@@ -6,6 +6,7 @@
     "module": "esnext",
     "target": "es5",
     "moduleResolution": "node",
-    "allowJs": true
+    "allowJs": true,
+    "downlevelIteration": true
   }
 }
