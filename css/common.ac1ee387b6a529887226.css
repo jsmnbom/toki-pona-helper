@@ -5667,6 +5667,12 @@ body {
   body > .section {
     flex: 1; }
 
+.auto-scroll-x {
+  overflow-x: auto; }
+
+#dictionary .table {
+  margin-top: 1rem; }
+
 @keyframes spinAround {
   from {
     transform: rotate(0deg); }
@@ -17067,4 +17073,4 @@ a.tag:hover {
   margin: 0 5px; }
 
 
-/*# sourceMappingURL=common.30d96ee6665cefa317a9.css.map*/
+/*# sourceMappingURL=common.ac1ee387b6a529887226.css.map*/
