@@ -31,22 +31,22 @@ export type Translation = {
 
 export default class Dict {
     static async getOfficial(trimE: boolean = true): Promise<Array<DictWord>> {
-        const raw = (await import("../dict/official.csv")).default;
+        const raw = (await import(/* webpackChunkName: "dict-official" */"../dict/official.csv")).default;
         return raw.map((rawWord: object) => new DictWord(rawWord, trimE));
     }
 
     static async getWords(): Promise<Array<Translation>> {
-        const raw = (await import("../dict/words.csv")).default;
+        const raw = (await import(/* webpackChunkName: "dict-words" */"../dict/words.csv")).default;
         return raw.map((rawWord: object) => rawWord);
     }
 
     static async getProperNouns(): Promise<Array<Translation>> {
-        const raw = (await import("../dict/proper-nouns.csv")).default;
+        const raw = (await import(/* webpackChunkName: "dict-proper-nouns" */"../dict/proper-nouns.csv")).default;
         return raw.map((rawWord: object) => rawWord);
     }
 
     static async getSentences(): Promise<Array<Translation>> {
-        const raw = (await import("../dict/sentences.csv")).default;
+        const raw = (await import(/* webpackChunkName: "dict-sentences" */"../dict/sentences.csv")).default;
         return raw.map((rawWord: object) => rawWord);
     }
 }

@@ -1,6 +1,8 @@
 import 'mousetrap';
 import * as template from './template';
-import {random, sample, sampleSize} from 'lodash';
+import random from 'lodash-es/random';
+import sample from 'lodash-es/sample';
+import sampleSize from 'lodash-es/sampleSize';
 import {BaseTutor} from "./baseTutor";
 import Dict, {DictWord} from "../dict";
 

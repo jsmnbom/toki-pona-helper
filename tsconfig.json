@@ -3,8 +3,8 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es6",
+    "module": "esnext",
+    "target": "es5",
     "moduleResolution": "node",
     "allowJs": true,
     "downlevelIteration": true

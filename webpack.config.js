@@ -2,7 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const TerserJSPlugin = require("terser-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const glob = require('glob');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const packageJson = require('./package.json');
 const exec = require('sync-exec');
@@ -144,7 +146,10 @@ module.exports = (env, argv) => {
                 template: './src/pug/html/' + page + '.pug',
                 chunks: chunks,
             })),
-            new WebappWebpackPlugin('./src/img/logo.svg')
+            new WebappWebpackPlugin('./src/img/logo.svg'),
+            new PurgecssPlugin({
+                paths: glob.sync(`${path.join(__dirname, 'src/pug')}/**/*`, {nodir: true}),
+            }),
         ],
         optimization: {
             minimizer: devMode ? [] : [
@@ -153,7 +158,10 @@ module.exports = (env, argv) => {
                     parallel: true,
                 }),
                 new OptimizeCSSAssetsPlugin({})
-            ]
+            ],
+            splitChunks: {
+                chunks: 'all'
+            }
         },
         devServer: {
             contentBase: dist
