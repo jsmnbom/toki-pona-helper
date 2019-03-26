@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const packageJson = require('./package.json');
+const exec = require('sync-exec');
 
 module.exports = (env, argv) => {
     console.log("mode", argv.mode);
@@ -20,7 +21,8 @@ module.exports = (env, argv) => {
                 loader: 'pug-html-loader',
                 options: {
                     data: {
-                        baseHref: devMode ? '/' : packageJson['prodBaseHref']
+                        baseHref: devMode ? '/' : packageJson['prodBaseHref'],
+                        revision: exec('git log \'--format=format:%H\' master -1').stdout
                     }
                 }
             }

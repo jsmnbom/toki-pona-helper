@@ -27,6 +27,7 @@
     "pug-loader": "^2.4.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
+    "sync-exec": "^0.6.2",
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.4000",
     "url-loader": "^1.1.2",
