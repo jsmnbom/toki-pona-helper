@@ -27,9 +27,15 @@ block content
                         //p.control
                         //    button.button.is-primary#copy_button Copy to clipboard
                         p.control
-                            button.button.is-primary#download_button Download
+                            button.button.is-primary#download_button
+                                span.icon
+                                    i.fas.fa-file-download
+                                span Download
                         p.control
-                            button.button.is-info#help_button Help
+                            button.button.is-info#help_button
+                                span.icon
+                                    i.fas.fa-question-circle
+                                span Help
             .box.is-primary.auto-scroll-x#output_box
                 canvas.linja-pona#canvas
     .modal#help_modal
