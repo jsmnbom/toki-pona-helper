@@ -148,7 +148,10 @@ module.exports = (env, argv) => {
             })),
             new WebappWebpackPlugin('./src/img/logo.svg'),
             new PurgecssPlugin({
-                paths: glob.sync(`${path.join(__dirname, 'src/pug')}/**/*`, {nodir: true}),
+                paths: [
+                    ...glob.sync(`${path.join(__dirname, 'src/pug')}/**/*`, {nodir: true}),
+                    ...glob.sync(`${path.join(__dirname, 'src/js')}/**/*`, {nodir: true})
+                ],
             }),
         ],
         optimization: {
