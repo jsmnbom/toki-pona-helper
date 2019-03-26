@@ -12,7 +12,6 @@
   "license": "MIT",
   "devDependencies": {
     "bulma": "^0.7.4",
-    "bulma-tooltip": "^2.0.2",
     "css-loader": "^2.1.1",
     "csv-loader": "^3.0.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -21,6 +20,7 @@
     "html-webpack-plugin": "^4.0.0-beta.5",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "papaparse": "^4.6.3",
     "popper.js": "^1.14.7",
     "pug-html-loader": "^1.1.5",
@@ -28,6 +28,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "sync-exec": "^0.6.2",
+    "terser-webpack-plugin": "^1.2.3",
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.4000",
     "url-loader": "^1.1.2",

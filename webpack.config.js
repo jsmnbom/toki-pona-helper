@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const TerserJSPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const packageJson = require('./package.json');
 const exec = require('sync-exec');
 
@@ -13,20 +15,17 @@ module.exports = (env, argv) => {
     const pugHtml = {
         test: /\.pug$/,
         include: path.resolve(__dirname, 'src/pug/html'),
-        use: [
-            {
-                loader: 'html-loader',
-            },
-            {
-                loader: 'pug-html-loader',
-                options: {
-                    data: {
-                        baseHref: devMode ? '/' : packageJson['prodBaseHref'],
-                        revision: exec('git log \'--format=format:%H\' master -1').stdout
-                    }
+        use: [{
+            loader: 'html-loader',
+        }, {
+            loader: 'pug-html-loader',
+            options: {
+                data: {
+                    baseHref: devMode ? '/' : packageJson['prodBaseHref'],
+                    revision: exec('git log \'--format=format:%H\' master -1').stdout
                 }
             }
-        ]
+        }]
     };
 
     const pugTemplate = {
@@ -58,8 +57,14 @@ module.exports = (env, argv) => {
 
     const ts = {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [{
+            loader: 'ts-loader',
+            options: {
+                transpileOnly: true,
+                experimentalWatchApi: true,
+            },
+        }]
     };
 
     const csv = {
@@ -141,6 +146,15 @@ module.exports = (env, argv) => {
             })),
             new WebappWebpackPlugin('./src/img/logo.svg')
         ],
+        optimization: {
+            minimizer: devMode ? [] : [
+                new TerserJSPlugin({
+                    cache: true,
+                    parallel: true,
+                }),
+                new OptimizeCSSAssetsPlugin({})
+            ]
+        },
         devServer: {
             contentBase: dist
         },
