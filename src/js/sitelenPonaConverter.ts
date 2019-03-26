@@ -107,7 +107,7 @@ class SitelenPonaConverter {
 
         const [lines, maxSeenWidth] = wrapText(this.ctx, this.textInput.value, maxWidth);
 
-        const width = this.wrap ? (maxSeenWidth > maxWidth ? maxSeenWidth : maxWidth) : maxSeenWidth + 10;
+        const width = (this.wrap ? (maxSeenWidth > maxWidth ? maxWidth : maxSeenWidth) : maxSeenWidth) + 10 * 2;
         const height = 10 + (this.fontSize * lines.length * 1.25);
 
         return [width, height, lines];
