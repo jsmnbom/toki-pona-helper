@@ -24,8 +24,14 @@ block content
                             |
                             | Wrap text
                     .field.is-grouped
+                        // Waiting for the proper Clipboard API
                         //p.control
                         //    button.button.is-primary#copy_button Copy to clipboard
+                        p.control
+                            button.button.is-primary#copy_link_button
+                                span.icon
+                                    i.fas.fa-copy
+                                span Copy link
                         p.control
                             button.button.is-primary#download_button
                                 span.icon

@@ -1,3 +1,7 @@
+import {stringify} from 'query-string';
+import * as ClipboardJS from 'clipboard';
+import tippy from "tippy.js";
+
 function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): [string[], number] {
     let lines: string[] = [];
     let maxSeenWidth = 0;
@@ -22,6 +26,10 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
     }
 
     return [lines.map(line => line.trim()), maxSeenWidth]
+}
+
+function base64UrlSafeEncode(unencoded: string) {
+    return new Buffer(unencoded || '').toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 class SitelenPonaConverter {
@@ -67,6 +75,23 @@ class SitelenPonaConverter {
         a.click();
     };
 
+    getCopyLinkText = () => {
+        const [width, height, lines] = this.getData();
+
+        const query = stringify({
+            w: width,
+            h: height,
+            f: this.fontSize,
+            l: lines.map(line => base64UrlSafeEncode(line))
+        }, {
+            arrayFormat: 'bracket'
+        });
+        const link = `https://toki-pona-helper.glitch.me/sitelen?${query}`;
+
+        console.log('Link: ', link);
+        return link
+    };
+
     onHelp = async () => {
         this.helpModal.classList.add('is-active');
     };
@@ -75,16 +100,25 @@ class SitelenPonaConverter {
         this.helpModal.classList.remove('is-active');
     };
 
+    getData = (): [number, number, string[]] => {
+        const boxComputedStyle = window.getComputedStyle(this.outputBox);
+
+        const maxWidth = this.wrap ? (this.outputBox.clientWidth - parseFloat(boxComputedStyle.paddingLeft) - parseFloat(boxComputedStyle.paddingRight) - 10 * 2) : Infinity;
+
+        const [lines, maxSeenWidth] = wrapText(this.ctx, this.textInput.value, maxWidth);
+
+        const width = this.wrap ? (maxSeenWidth > maxWidth ? maxSeenWidth : maxWidth) : maxSeenWidth + 10;
+        const height = 10 + (this.fontSize * lines.length * 1.25);
+
+        return [width, height, lines];
+    };
+
     redraw = async () => {
         if (this.ready) {
-            const boxComputedStyle = window.getComputedStyle(this.outputBox);
+            const [width, height, lines] = this.getData();
 
-            const maxWidth = this.wrap ? (this.outputBox.clientWidth - parseFloat(boxComputedStyle.paddingLeft) - parseFloat(boxComputedStyle.paddingRight) - 10 * 2) : Infinity;
-
-            const [lines, maxSeenWidth] = wrapText(this.ctx, this.textInput.value, maxWidth);
-
-            this.canvas.width = this.wrap ? (maxSeenWidth > maxWidth ? maxSeenWidth : maxWidth) : maxSeenWidth +10;
-            this.canvas.height = 10 + (this.fontSize * lines.length * 1.25);
+            this.canvas.width = width;
+            this.canvas.height = height;
             this.ctx.font = `${this.fontSize}px linja-pona`;
             this.ctx.textBaseline = 'top';
 
@@ -115,6 +149,28 @@ class SitelenPonaConverter {
         document.getElementById('help_button').addEventListener('click', this.onHelp);
         document.getElementById('modal_background').addEventListener('click', this.onCloseHelp);
         document.getElementById('modal_close').addEventListener('click', this.onCloseHelp);
+
+
+        const copyLinkButton = document.getElementById('copy_link_button');
+        //TODO: ClipboardJS.isSupported()
+        const clipboard = new ClipboardJS(copyLinkButton, {
+            text: this.getCopyLinkText
+        });
+        const clipBoardTooltip = tippy(copyLinkButton, {
+            content: '',
+            animateFill: false,
+            animation: 'fade',
+            arrow: true,
+            trigger: 'manual',
+        });
+        for (const [event, message] of [['success', 'Copied!'], ['error', 'Not supported!']]) {
+            clipboard.on(event, () => {
+                // @ts-ignore
+                clipBoardTooltip.setContent(message);
+                // @ts-ignore
+                clipBoardTooltip.show();
+            });
+        }
 
         this.wrapInput.dispatchEvent(new Event('change'));
         this.fontSizeInput.dispatchEvent(new Event('input'));

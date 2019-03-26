@@ -36,8 +36,10 @@
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
+    "@types/clipboard": "^2.0.1",
     "@types/lodash": "^4.14.123",
     "@types/mousetrap": "^1.6.1",
+    "clipboard": "^2.0.4",
     "lodash": "^4.17.11",
     "mousetrap": "^1.6.3",
     "pug": "^2.0.3",
