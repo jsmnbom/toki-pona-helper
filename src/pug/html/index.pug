@@ -21,71 +21,90 @@ block content
         .container
             p.title.has-text-centered.is-3 Vocabulary
 
-            .card
-                .card-content
-                    .tutor-container
-                        .tutor-item
-                            div
-                                span.tag.is-success simple
-                                p.title.is-4.is-marginless official vocabulary
-                                .content
-                                    p Train the 125 root words used in toki pona.
-                                    |
-                                    | If you're new to the language this is where you should start.
-                        .tutor-item
-                            .div(style='float: right;')
-                                a.button.is-primary(href='tutor.html?type=single') Go to tutor!
+            .tile.is-ancestor.button-tiles
+                .tile.is-vertical
+                    .tile
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    .ribbon.is-success beginner
+                                    p.title.is-5 Official words
+                                    p Train the 125 root toki pona words. This is a good place to start as a beginner.
+                                    a.button.is-primary(href='tutor.html?type=single') Train simple words!
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    .ribbon.is-warning hard
+                                    p.title.is-5 General words
+                                    p.is-flex Train general toki pona vocabulary.
+                                    a.button.is-primary(href='tutor.html?type=multi') Train harder words!
+                    .tile
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    .ribbon.is-warning hard
+                                    p.title.is-5 Proper nouns
+                                    p.is-flex Train proper toki pona nouns.
+                                    a.button.is-primary(href='tutor.html?type=proper-noun') Train proper nouns!
 
-            .card
-                .card-content
-                    .tutor-container
-                        .tutor-item
-                            div
-                                span.tag.is-warning harder
-                                p.title.is-4.is-marginless general vocabulary
-                                .content
-                                    p Train general toki pona vocabulary.
-                        .tutor-item
-                            a.button.is-primary(href='tutor.html?type=multi') Go to tutor!
-
-            .card
-                .card-content
-                    .tutor-container
-                        .tutor-item
-                            div
-                                span.tag.is-danger hard
-                                p.title.is-4.is-marginless full sentences
-                                .content
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    .ribbon.is-danger expert
+                                    p.title.is-5 Full sentences
                                     p Train full toki pona sentences.
-                        .tutor-item
-                            a.button.is-primary(href='tutor.html?type=sentence') Go to tutor!
+                                    a.button.is-primary(href='tutor.html?type=sentence') Train sentences!
 
     section.section.is-small
         .container
             p.title.has-text-centered.is-3 Writing systems/sign language
 
-            .card
-                .card-content
-                    .tutor-container
-                        .tutor-item
-                            div
-                                span.tag.is-warning harder
-                                p.title.is-4.is-marginless sitelen toki pona
-                                .content
+            .tile.is-ancestor.button-tiles
+                .tile.is-vertical
+                    .tile
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    .ribbon.is-warning hard
+                                    p.title.is-5
+                                        span.icon
+                                            i.fas.fa-image
+                                        span Hieroglyphs #[span.has-text-grey.is-size-6 (sitelen pona)]
                                     p Train toki pona hieroglyphs, as they appear in the official toki pona book.
-                        .tutor-item
-                            .div(style='float: right;')
-                                a.button.is-primary(href='tutor.html?type=sitelen') Go to tutor!
+                                    a.button.is-primary(href='tutor.html?type=sitelen') Train sitelen pona!
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    .ribbon.is-danger expert
+                                    p.title.is-5
+                                        span.icon
+                                            i.fas.fa-sign-language
+                                        span Sign language #[span.has-text-grey.is-size-6 (toki pona luka)]
+                                    p.is-flex Train toki pona sign langauge, as described in the official toki pona book. (Not yet implemented)
+                                    a.button.is-primary(href='tutor.html?type=sign') Train toki pona luka!
 
-            .card
-                .card-content
-                    .tutor-container
-                        .tutor-item
-                            div
-                                span.tag.is-danger hard
-                                p.title.is-4.is-marginless sign langauge
-                                .content
-                                    p Train toki pona sign langauge, as described in the official toki pona book. (Not yet implemented)
-                        .tutor-item
-                            .div(style='float: right;')
-                                a.button.is-primary(href='tutor.html?type=sign') Go to tutor!
+    section.section.is-small
+        .container
+            p.title.has-text-centered.is-3 Tools
+
+            .tile.is-ancestor.button-tiles
+                .tile.is-vertical
+                    .tile
+                        .tile.is-parent
+                            .tile.is-child
+                                .box
+                                    p.title.is-5
+                                        span.icon
+                                            i.fas.fa-globe
+                                        span English <-> toki pona dictionary
+                                    p A full english to/from toki pona dictionary - even has sentence examples.
+                                    a.button.is-primary(href='dictionary.html') Go to dictionary!
+                        .tile.is-parent
+                            .tile.is-child
+                                .box.has-ribbon
+                                    p.title.is-5
+                                        span.icon(style='width: 2rem;')
+                                            i.fas.fa-language
+                                        span Text to sitelen pona converter
+                                    p.is-flex A simple tool to convert text into toki pona hieroglyphs (sitelen pona).
+                                    a.button.is-primary(href='tutor.html?type=sign') Go to converter!
