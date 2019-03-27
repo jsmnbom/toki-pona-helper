@@ -1,4 +1,4 @@
-import tippy from "tippy.js";
+import tippy, {Instance} from "tippy.js";
 
 export class Stats {
     private readonly elementCorrect: HTMLElement;
@@ -8,6 +8,7 @@ export class Stats {
     private _skip: number;
     private _wrong: number;
     private first: boolean;
+    private emptyTippy: Instance;
 
     get percentCorrect(): number {
         return (this._correct / this.total) * 100
@@ -42,6 +43,12 @@ export class Stats {
         };
 
         // @ts-ignore
+        this.emptyTippy = tippy(document.getElementById('stats'), {
+            ...tooltipOptions,
+            content: 'Your scores will show up here.'
+        });
+
+        // @ts-ignore
         tippy(this.elementCorrect, {
             onShow: (instance) => {
                 instance.setContent(`Answered ${this._correct} out of ${this.total} questions correct (${Math.round(this.percentCorrect)}%).`)
@@ -70,6 +77,12 @@ export class Stats {
         this.elementCorrect.style.width = this.percentCorrect + '%';
         this.elementWrong.style.width = this.percentWrong + '%';
         this.elementSkip.style.width = this.percentSkip + '%';
+
+        if (this._skip > 0 || this._wrong > 0  || this._correct > 0) {
+            this.emptyTippy.disable()
+        } else {
+            this.emptyTippy.enable()
+        }
     }
 
     correct() {
