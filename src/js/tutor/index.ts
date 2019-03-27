@@ -4,6 +4,7 @@ import {SingleTutor} from "./singleTutor";
 import {SitelenTutor} from "./sitelenTutor";
 import {MultiTutor} from "./multiTutor";
 import {SentenceTutor} from "./sentenceTutor";
+import {ProperNounTutor} from "./properNounTutor";
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,6 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
         case 'multi':
             console.log('MultiTutor');
             tutor = new MultiTutor();
+            break;
+        case 'proper-noun':
+            console.log('ProperNounTutor');
+            tutor = new ProperNounTutor();
             break;
         case 'sentence':
             console.log('SentenceTutor');
