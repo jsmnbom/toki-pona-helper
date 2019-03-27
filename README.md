@@ -1,9 +1,16 @@
 Toki Pona helper
 ================
 
-Very much a work in progress...
+Website to help you learn toki pona, and generally just help you in your toki pona adventures!
 
-# Thanks
+See the live version at https://jsmnbom.github.io/toki-pona-helper.
+
+## Contributing
+
+Please contribute using [Github Flow](https://guides.github.com/introduction/flow/).
+Create a branch, add commits, and [open a pull request](https://github.com/fraction/readme-boilerplate/compare/).
+
+## Thanks
 
 The word lists used are based on [lessons created by jan Lope](https://github.com/jan-Lope/Toki_Pona_lessons_English) released under a [GPL-3.0 license](https://github.com/jan-Lope/Toki_Pona_lessons_English/blob/master/LICENSE).
 
